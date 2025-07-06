@@ -28,20 +28,20 @@ export default function Navbar() {
           </button>
           <div className="collapse navbar-collapse" id="navbarText">
             <ul className="navbar-nav mb-2 mb-lg-0 d-flex justify-content-center flex-grow-1">
-              <li className="nav-item px-5">
-                <NavLink className="nav-link" aria-current="page" to="">Home</NavLink>
+              <li className="nav-item px-3">
+                <NavLink className="nav-link" to="">Home</NavLink>
               </li>
-              <li className="nav-item px-5">
+              <li className="nav-item px-3">
                 <NavLink className="nav-link" to="shop">Shop</NavLink>
               </li>
-              <li className="nav-item px-5">
+              <li className="nav-item px-3">
                 <NavLink className="nav-link" to="contact">Contact</NavLink>
               </li>
             </ul>
-            <ul className="navbar-nav ms-auto mb-2 mb-lg-0 d-flex flex-row">
+            <ul className="navbar-nav ms-auto d-flex flex-row align-items-center">
               {token ? (
                 <>
-                  <li className="nav-item px-2 pt-1">
+                  <li className="nav-item px-2">
                     <button onClick={handleLogout} className="btn btn-link nav-link text-dark p-0">
                       <i className="bi bi-box-arrow-right fs-4"></i>
                     </button>
@@ -68,98 +68,53 @@ export default function Navbar() {
       </nav>
 
       {isPopupOpen && (
-        <div
-          className="position-fixed top-0 end-0 p-4 bg-white shadow-lg rounded-3 w-75 w-md-50"
-          style={{ zIndex: 1050, maxHeight: "80vh", overflowY: "auto", overflowX: "auto" }}
-        >
-          <h5>Your Cart</h5>
+        <div className="position-fixed top-0 end-0 p-3 bg-white shadow-lg rounded-3" style={{ width: "100%", maxWidth: "400px", zIndex: 1050, height: "100vh", overflowY: "auto" }}>
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <h5 className="mb-0">Your Cart</h5>
+            <button className="btn-close" onClick={togglePopup}></button>
+          </div>
+
           {cart.length === 0 ? (
             <p className="text-center fs-5">Your cart is empty.</p>
           ) : (
-            <div className="row">
-              <div className="col-lg-12">
-                <table className="table table-hover text-center">
-                  <thead>
-                    <tr>
-                      <th>Image</th>
-                      <th>Product</th>
-                      <th>Color</th>
-                      <th>Size</th>
-                      <th>Price</th>
-                      <th>Quantity</th>
-                      <th>Total</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {cart.map((item) => (
-                      <tr key={`${item.id}-${item.size}-${item.color}`}>
-                        <td className="align-middle">
-                          <img
-                            src={item.thumbnail}
-                            alt={item.title}
-                            style={{ width: "50px", height: "50px", backgroundColor: "#FFF9E5" }}
-                            className="rounded"
-                          />
-                        </td>
-                        <td className="align-middle">{item.title}</td>
-                        <td className="align-middle">
-                          <span
-                            style={{
-                              display: "inline-block",
-                              width: "20px",
-                              height: "20px",
-                              backgroundColor: item.color,
-                              borderRadius: "50%",
-                            }}
-                          ></span>
-                        </td>
-                        <td className="align-middle">{item.size}</td>
-                        <td className="align-middle">RS. {item.price}</td>
-                        <td className="align-middle">
-                          <div className="d-flex align-items-center">
-                            <button
-                              className="btn btn-outline-dark mx-2"
-                              onClick={() => addToCart({ ...item, quantity: 1 })}
-                            >
-                              +
-                            </button>
-                            {item.quantity}
-                            <button
-                              className="btn btn-outline-dark mx-2"
-                              onClick={() => decrementQuantity(item)}
-                            >
-                              -
-                            </button>
-                          </div>
-                        </td>
-                        <td className="align-middle">
-                          RS. {Math.round(item.price * item.quantity * 100) / 100}
-                        </td>
-                        <td className="align-middle">
-                          <button
-                            className="btn btn-outline-danger"
-                            onClick={() => removeFromCart(item)}
-                          >
-                            <i className="bi bi-trash"></i>
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+            <div className="d-flex flex-column gap-3">
+              {cart.map((item) => (
+                <div key={`${item.id}-${item.size}-${item.color}`} className="card">
+                  <div className="card-body d-flex flex-column gap-2">
+                    <div className="d-flex align-items-center gap-3">
+                      <img src={item.thumbnail} alt={item.title} style={{ width: "60px", height: "60px", backgroundColor: "#FFF9E5" }} className="rounded" />
+                      <div className="flex-grow-1">
+                        <h6 className="mb-1">{item.title}</h6>
+                        <div className="d-flex align-items-center gap-2">
+                          <span className="badge bg-secondary">{item.size}</span>
+                          <span className="rounded-circle border" style={{ width: "18px", height: "18px", backgroundColor: item.color }}></span>
+                        </div>
+                      </div>
+                      <button className="btn btn-sm btn-outline-danger" onClick={() => removeFromCart(item)}>
+                        <i className="bi bi-trash"></i>
+                      </button>
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center">
+                      <span>Price: RS. {item.price}</span>
+                      <span>Total: RS. {Math.round(item.price * item.quantity * 100) / 100}</span>
+                    </div>
+                    <div className="d-flex justify-content-center align-items-center">
+                      <button className="btn btn-outline-dark btn-sm mx-2" onClick={() => decrementQuantity(item)}>-</button>
+                      <span>{item.quantity}</span>
+                      <button className="btn btn-outline-dark btn-sm mx-2" onClick={() => addToCart({ ...item, quantity: 1 })}>+</button>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           )}
-          <div className="d-flex justify-content-between mt-3">
-            <button className="btn btn-outline-dark" onClick={togglePopup}>
-              Close
-            </button>
-            <NavLink to="/cart" className="btn btn-outline-dark" onClick={() => setIsPopupOpen(false)}>
-              Go to Cart
+
+          <div className="d-flex justify-content-between mt-4">
+            <NavLink to="/cart" className="btn btn-outline-dark w-50 me-2" onClick={() => setIsPopupOpen(false)}>
+              View Cart
             </NavLink>
-            <NavLink to="/checkout" className="btn btn-outline-dark" onClick={() => setIsPopupOpen(false)} disabled={cart.length === 0}>
-              Go to Checkout
+            <NavLink to="/checkout" className="btn btn-dark w-50" onClick={() => setIsPopupOpen(false)} disabled={cart.length === 0}>
+              Checkout
             </NavLink>
           </div>
         </div>
