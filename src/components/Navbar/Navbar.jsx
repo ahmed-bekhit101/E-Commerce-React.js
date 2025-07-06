@@ -41,9 +41,9 @@ export default function Navbar() {
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0 d-flex flex-row">
               {token ? (
                 <>
-                  <li className="nav-item px-2">
+                  <li className="nav-item px-2 pt-1">
                     <button onClick={handleLogout} className="btn btn-link nav-link text-dark p-0">
-                      <i className="bi bi-box-arrow-right fs-5"></i>
+                      <i className="bi bi-box-arrow-right fs-4"></i>
                     </button>
                   </li>
                   <li className="nav-item px-2">
