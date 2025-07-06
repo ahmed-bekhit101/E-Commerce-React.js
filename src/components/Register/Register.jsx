@@ -147,12 +147,7 @@ export default function Register() {
           <div className="invalid-feedback">{formik.errors.phone}</div>
         </div>
 
-        <div className="form-check pt-3 py-4">
-          <input className="form-check-input" type="checkbox" id="gridCheck" />
-          <label className="form-check-label" htmlFor="gridCheck">
-            I agree to the <Link to="">Terms and Conditions</Link>
-          </label>
-        </div>
+
 
         <button type="submit" className="btn btn-outline-dark px-5 py-3">
           Register

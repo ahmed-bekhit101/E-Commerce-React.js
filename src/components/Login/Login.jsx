@@ -91,12 +91,7 @@ export default function Login() {
           <div className="invalid-feedback">{formik.errors.password}</div>
         </div>
 
-        <div className="form-check pt-3 py-4">
-          <input className="form-check-input" type="checkbox" id="gridCheck" />
-          <label className="form-check-label" htmlFor="gridCheck">
-            Remember me
-          </label>
-        </div>
+
 
         <div className="d-flex align-items-center">
           <button type="submit" className="btn btn-outline-dark px-5 py-3">
@@ -106,9 +101,6 @@ export default function Login() {
           <div className="px-5">
             <p className="mt-3">
               Don't have an account? <Link to="/register">Register</Link>
-            </p>
-            <p className="mt-3">
-              Forgot Password? <Link to="/passwordRecovery">Reset Password</Link>
             </p>
           </div>
         </div>
